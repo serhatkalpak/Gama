@@ -1,30 +1,23 @@
+#!/data/data/com.termux/files/usr/bin/python3
 import os
 import requests
 import argparse
-from getpass import getpass
 
+# !!! GÜVENLİK UYARISI !!!
+# API ANAHTARINIZI ASLA KOD İÇİNDE SAKLAMAYIN!
+# BU ÖRNEK SADECE EĞİTİM AMAÇLIDIR.
+
+# API Konfigürasyonu
+DEEPSEEK_API_KEY = "sk-4c1307c2b2cb4006b7da20c229201814"  # ⚠️ GERÇEK PROJELERDE .env KULLANIN!
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 MODELS = {
     "1": "deepseek-chat",
     "2": "deepseek-coder"
 }
 
-def get_api_key():
-    """API anahtarını config dosyasından veya kullanıcıdan al"""
-    config_path = os.path.expanduser("~/.deepseek_config")
-    try:
-        with open(config_path, "r") as f:
-            return f.read().strip()
-    except FileNotFoundError:
-        api_key = getpass("🔑 DeepSeek API anahtarınızı girin: ")
-        with open(config_path, "w") as f:
-            f.write(api_key)
-        os.chmod(config_path, 0o600)
-        return api_key
-
-def deepseek_chat(prompt, model, api_key, temperature=0.7):
+def deepseek_chat(prompt, model, temperature=0.7):
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
         "Content-Type": "application/json"
     }
     
@@ -35,7 +28,7 @@ def deepseek_chat(prompt, model, api_key, temperature=0.7):
     }
 
     try:
-        response = requests.post(DEEPSEEK_API_URL, json=payload, headers=headers, timeout=30)
+        response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload, timeout=30)
         response.raise_for_status()
         return response.json()['choices'][0]['message']['content']
     except Exception as e:
@@ -47,32 +40,26 @@ def main():
     args = parser.parse_args()
 
     # Model seçimi
-    if not args.model:
+    model = MODELS["1"]  # Varsayılan model
+    if args.model:
+        model = f"deepseek-{args.model}"
+    else:
         print("\n".join([f"{k}. {v}" for k, v in MODELS.items()]))
         model_choice = input("Model seçin (1/2): ")
-        model = MODELS.get(model_choice, MODELS["1"])
-    else:
-        model = "deepseek-" + args.model
+        model = MODELS.get(model_choice, model)
 
-    api_key = get_api_key()
-    
-    print("\n🌟 DeepSeek Terminal AI (Çıkmak için 'exit' yazın)")
-    while True:
-        try:
+    print("\n🌟 DeepSeek Terminal AI (Çıkmak için CTRL+C)")
+    try:
+        while True:
             prompt = input("\nYou: ")
-            if prompt.lower() in ['exit', 'quit']:
-                break
-                
-            print("AI: ", end="", flush=True)
+            if prompt.lower() in ['exit', 'quit']: break
             
-            # Stream benzeri efekt
-            response = deepseek_chat(prompt, model, api_key)
-            for line in response.split('\n'):
-                print(line)
-                
-        except KeyboardInterrupt:
-            print("\nÇıkılıyor...")
-            break
+            print("AI: ", end="", flush=True)
+            response = deepseek_chat(prompt, model)
+            print(response)
+            
+    except KeyboardInterrupt:
+        print("\nÇıkılıyor...")
 
 if __name__ == "__main__":
     main()
