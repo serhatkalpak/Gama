@@ -8,7 +8,7 @@ import argparse
 # BU ÖRNEK SADECE EĞİTİM AMAÇLIDIR.
 
 # API Konfigürasyonu
-DEEPSEEK_API_KEY = "sk-4c1307c2b2cb4006b7da20c229201814"  # ⚠️ GERÇEK PROJELERDE .env KULLANIN!
+DEEPSEEK_API_KEY = "sk-e2e655cb26a24003ab9ac98d2bd66245"  # ⚠️ GERÇEK PROJELERDE .env KULLANIN!
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 MODELS = {
     "1": "deepseek-chat",
