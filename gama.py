@@ -1,10 +1,8 @@
-#!/data/data/com.termux/files/usr/bin/python3
 import os
 import requests
 import argparse
 from getpass import getpass
 
-# DeepSeek API Endpoint ve Modeller
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 MODELS = {
     "1": "deepseek-chat",
