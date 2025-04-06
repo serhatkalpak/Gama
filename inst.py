@@ -9,8 +9,7 @@ from rich.align import Align
 
 console = Console()
 
-# API ayarları (DÜZENLEMEN GEREKİYOR!)
-API_BASE = "https://your-api-endpoint.com/lookup"  # ❌ Default değer çalışmaz
+# API ayarları (DÜZENLEMEN GEREKİYOR!)Default değer çalışmaz
 
 def clear():
     os.system("clear" if os.name == "posix" else "cls")
