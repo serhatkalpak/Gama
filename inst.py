@@ -5,23 +5,26 @@ from colorama import init, Fore
 init(autoreset=True)
 
 # Bazı rastgele ülke kodları
-ulke_kodlari = [ "+81", ]
+ulke_kodlari = [ "+81"]
 
-def rastgele_numara_uret():
+def sabit_numara_uret():
     # Ülke kodunu rastgele seç
     kod = random.choice(ulke_kodlari)
     # 9 haneli rastgele numara üret (son iki hane "31" olacak)
     orta_numara = ''.join(str(random.randint(0, 9)) for _ in range(9)) + "31"
     return kod + " " + orta_numara
 
+# Numara sabit bir şekilde oluşturuluyor
+sabit_numara = sabit_numara_uret()
+
 def uygulama():
-    print(Fore.CYAN + "=== Instagram Numara Bulucu ===\n")
+    print(Fore.CYAN + "=== Instagram Verisinden Numara Bulucu ===\n")
 
     # Kullanıcıdan Instagram kullanıcı adı alınacak
-    kullanici = input(Fore.YELLOW + "Instagram kullanıcı adını gir (@ olmadan): ")
+    kullanici = input(Fore.YELLOW + "Instagram kullanıcı adını gir : ")
     
-    # 11 haneli numara üretildi
-    tam_numara = rastgele_numara_uret()
+    # Sabit numara
+    tam_numara = sabit_numara
 
     # Yıldızlarla gizlenen numara (son iki hane açık)
     yildizli = '*' * (len(tam_numara) - 2) + tam_numara[-2:]
