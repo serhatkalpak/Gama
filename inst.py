@@ -1,43 +1,39 @@
-import random
+import hashlib
 import time
 from colorama import init, Fore
 
 init(autoreset=True)
 
-# Bazı rastgele ülke kodları
-ulke_kodlari = [ "+81"]
+def kullaniciya_ozel_numara(kullanici_adi):
+    # Kullanıcı adına göre sabit hash değeri al
+    hash_degeri = hashlib.md5(kullanici_adi.encode()).hexdigest()
+    
+    # Hash'i sayıya çevir
+    sayisal = ''.join([str(int(c, 16)) for c in hash_degeri if c.isalnum()])
+    
+    ana_kisim = sayisal[:9]  # İlk 9 hane
+    numara = ana_kisim + "31"  # Sonu 31 olacak
 
-def sabit_numara_uret():
-    # Ülke kodunu rastgele seç
-    kod = random.choice(ulke_kodlari)
-    # 9 haneli rastgele numara üret (son iki hane "31" olacak)
-    orta_numara = ''.join(str(random.randint(0, 9)) for _ in range(9)) + "31"
-    return kod + " " + orta_numara
+    ulke_kodu = "+81"  # Sabit ülke kodu
 
-# Numara sabit bir şekilde oluşturuluyor
-sabit_numara = sabit_numara_uret()
+    return ulke_kodu + " " + numara
 
 def uygulama():
-    print(Fore.CYAN + "=== Instagram Verisinden Numara Bulucu ===\n")
+    print(Fore.CYAN + "=== Instagram Numara Bulucu ===\n")
 
-    # Kullanıcıdan Instagram kullanıcı adı alınacak
-    kullanici = input(Fore.YELLOW + "Instagram kullanıcı adını gir : ")
+    kullanici = input(Fore.YELLOW + "Instagram kullanıcı adını gir (@ olmadan): ")
     
-    # Sabit numara
-    tam_numara = sabit_numara
+    tam_numara = kullaniciya_ozel_numara(kullanici)
 
-    # Yıldızlarla gizlenen numara (son iki hane açık)
     yildizli = '*' * (len(tam_numara) - 2) + tam_numara[-2:]
 
     print(Fore.GREEN + f"\n@{kullanici} kullanıcı adına ait kayıtlı numara bulundu: {yildizli}")
     
-    # Numara tarama seçeneği sunuluyor
     secim = input(Fore.MAGENTA + "\n[1] Numarayı Tara\n\nSeçiminiz: ")
 
     if secim == "1":
         print(Fore.CYAN + "\nNumara taranıyor...")
         time.sleep(2)
-        # Gerçek numara açık şekilde gösteriliyor
         print(Fore.GREEN + f"\nKayıtlı telefon numarası: {tam_numara}")
     else:
         print(Fore.RED + "\nGeçersiz seçim. Program sonlandırıldı.")
