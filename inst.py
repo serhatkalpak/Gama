@@ -1,42 +1,47 @@
 import hashlib
 import time
-from colorama import init, Fore
+import os
+from colorama import init, Fore, Back, Style
 
 init(autoreset=True)
 
-def kullaniciya_ozel_numara(kullanici_adi):
-    # Kullanıcı adına göre sabit hash değeri al
-    hash_degeri = hashlib.md5(kullanici_adi.encode()).hexdigest()
-    
-    # Hash'i sayıya çevir
-    sayisal = ''.join([str(int(c, 16)) for c in hash_degeri if c.isalnum()])
-    
-    ana_kisim = sayisal[:9]  # İlk 9 hane
-    numara = ana_kisim + "31"  # Sonu 31 olacak
+def banner():
+    os.system("clear" if os.name != "nt" else "cls")
+    print(Fore.GREEN + Style.BRIGHT + """
+██████╗ ██╗███╗   ██╗████████╗███████╗
+██╔══██╗██║████╗  ██║╚══██╔══╝██╔════╝
+██████╔╝██║██╔██╗ ██║   ██║   █████╗  
+██╔═══╝ ██║██║╚██╗██║   ██║   ██╔══╝  
+██║     ██║██║ ╚████║   ██║   ███████╗
+╚═╝     ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+    """)
+    print(Fore.MAGENTA + "     Instagram Numara Bulucu Tool - Hacker Style")
+    print(Fore.CYAN + "           Coded by Serhat\n")
 
-    ulke_kodu = "+81"  # Sabit ülke kodu
+def generate_number(user_id, username):
+    combined = f"{user_id}_{username}"
+    hashed = hashlib.sha256(combined.encode()).hexdigest()
+    numeric = ''.join([str(int(c, 16)) for c in hashed if c.isalnum()])
+    number = numeric[:9] + "31"
+    return "+81 " + number
 
-    return ulke_kodu + " " + numara
+def start():
+    banner()
+    user_id = input(Fore.YELLOW + "[?] Instagram Kullanıcı ID'si: ")
+    username = input(Fore.YELLOW + "[?] Instagram Kullanıcı Adı: ")
 
-def uygulama():
-    print(Fore.CYAN + "=== Instagram Numara Bulucu ===\n")
+    full_number = generate_number(user_id, username)
+    hidden_number = '*' * (len(full_number) - 2) + full_number[-2:]
 
-    kullanici = input(Fore.YELLOW + "Instagram kullanıcı adını gir (@ olmadan): ")
-    
-    tam_numara = kullaniciya_ozel_numara(kullanici)
+    print(Fore.GREEN + f"\n[+] @{username} kullanıcısına ait kayıtlı numara bulundu: {Fore.LIGHTRED_EX}{hidden_number}")
 
-    yildizli = '*' * (len(tam_numara) - 2) + tam_numara[-2:]
+    choice = input(Fore.CYAN + "\n[1] Numarayı Tara\n\n" + Fore.LIGHTGREEN_EX + "[>] Seçiminiz: ")
 
-    print(Fore.GREEN + f"\n@{kullanici} kullanıcı adına ait kayıtlı numara bulundu: {yildizli}")
-    
-    secim = input(Fore.MAGENTA + "\n[1] Numarayı Tara\n\nSeçiminiz: ")
-
-    if secim == "1":
-        print(Fore.CYAN + "\nNumara taranıyor...")
+    if choice == "1":
+        print(Fore.LIGHTBLUE_EX + "\n[*] Numara taranıyor...")
         time.sleep(2)
-        print(Fore.GREEN + f"\nKayıtlı telefon numarası: {tam_numara}")
+        print(Fore.LIGHTGREEN_EX + f"\n[✓] Kayıtlı telefon numarası: {Fore.WHITE + Back.BLACK}{full_number}")
     else:
-        print(Fore.RED + "\nGeçersiz seçim. Program sonlandırıldı.")
+        print(Fore.RED + "\n[-] Geçersiz seçim. Program sonlandırıldı.")
 
-# Başlat
-uygulama()
+start()
