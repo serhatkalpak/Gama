@@ -15,8 +15,8 @@ def banner():
 ██║     ██║██║ ╚████║   ██║   ███████╗
 ╚═╝     ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
     """)
-    print(Fore.MAGENTA + "     Instagram Numara Bulucu Tool - Hacker Style")
-    print(Fore.CYAN + "           Coded by Serhat\n")
+    print(Fore.MAGENTA + "     Instagram Numara Bulucu Tool ")
+    print(Fore.CYAN + "           Coded by Serhat | KAPLAN \n")
 
 def generate_number(user_id, username):
     combined = f"{user_id}_{username}"
