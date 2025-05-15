@@ -1,0 +1,52 @@
+// Melisamla Hatıralarım - Profesyonel Web Sayfası // React + TypeScript + Tailwind CSS + Bootstrap + Framer Motion + Kalp & Kar tanesi animasyonu
+
+import React, { useEffect } from "react"; import { Sparkles, Heart } from "lucide-react"; import { motion } from "framer-motion"; import "bootstrap/dist/css/bootstrap.min.css";
+
+const memories = [ { date: "8 Aralık 2024", text: Lösev’in turuncu haftasında seni ilk kez gördüm. Elimi boyayıp pankarta bastım ama… Kalbime iz bırakan sendin. Takvimin en güzel günüydü seni tanıdığım gün. O an içimden bir şey “işte bu” dedi. Farkında bile olmadan sana aşık oldum. }, { date: "14 Mart 2025", text: Sen sunumdan çıkmıştın, bahçedeydik. Arkadaşlarınlaydın, bana döndün: “Fotoğrafımızı çeker misin?” dedin. O an, seni daha yakından tanımayı ne kadar çok istediğimi fark ettim. }, { date: "18 Nisan 2025", text: İlk buluşmamızdı. Kahve içtik, fallar baktık… ama ben hep sana baktım. O gün gözlerinde kayboldum. }, { date: "26 Nisan 2025", text: Arabada giderken İlk defa elini tuttum. Okey oynarken sende eksik olan taşı verdim. O gün sadece sana okey taşını değil, kalbimi de verdim. }, { date: "3 Mayıs 2025", text: İlk kez birlikte Mersin’e gittik. Sahilde yürüdük, sahilde oturup beraber denize daldık. O an anladım ki, seninle her şey daha güzel. }, { date: "11 Mayıs 2025", text: Ona bebek oyuncak hediye aldım çok mutlu oldu. O gözlerindeki mutluluğu görebilmek için her şeyi yapabilirim, adeta büyülendim o gözlerde. Böylece bir çocuğun hayatına dokunabildim. Beraber ilk defa AVM'de stantta oyuncak satmaya çalıştık, yaprak sarma yedik. Elini kazağım ile temizledi ve o kazağı hiç yıkamayacağım demiştim. } ];
+
+const snowflakes = new Array(20).fill(0).map((_, i) => ({ id: snow-${i}, delay: Math.random() * 5, left: Math.random() * 100 + "%", size: Math.random() * 8 + 6 }));
+
+const hearts = new Array(15).fill(0).map((_, i) => ({ id: heart-${i}, delay: Math.random() * 5, left: Math.random() * 100 + "%", size: Math.random() * 10 + 8 }));
+
+export default function MelisamlaHatiralarim(): JSX.Element { useEffect(() => { document.body.style.overflowX = "hidden"; }, []);
+
+return ( <div className="relative min-h-screen bg-gradient-to-br from-rose-50 to-yellow-100 px-4 md:px-6 py-12 overflow-x-hidden"> {/* Kalp & Kar tanesi animasyonu */} <div className="absolute inset-0 pointer-events-none overflow-hidden"> {snowflakes.map(s => ( <motion.div key={s.id} initial={{ opacity: 0 }} animate={{ y: "100vh", opacity: [0, 1, 0] }} transition={{ duration: 8, delay: s.delay, repeat: Infinity }} className="absolute text-white" style={{ left: s.left, fontSize: ${s.size}px }} > * </motion.div> ))} {hearts.map(h => ( <motion.div key={h.id} initial={{ opacity: 0 }} animate={{ y: "100vh", opacity: [0, 1, 0] }} transition={{ duration: 8, delay: h.delay, repeat: Infinity }} className="absolute text-red-400" style={{ left: h.left, fontSize: ${h.size}px }} > ❤ </motion.div> ))} </div>
+
+{/* Başlık */}
+  <motion.h1
+    initial={{ opacity: 0, y: -30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7 }}
+    className="text-center text-4xl md:text-5xl font-extrabold text-rose-600 mb-12 flex justify-center gap-4 items-center"
+  >
+    <Sparkles className="text-yellow-400 animate-pulse w-7 h-7 md:w-8 md:h-8" />
+    Melisamla Hatıralarım
+    <Sparkles className="text-yellow-400 animate-pulse w-7 h-7 md:w-8 md:h-8" />
+  </motion.h1>
+
+  {/* Hatıra kartları */}
+  <div className="container mx-auto flex flex-wrap justify-center gap-6">
+    {memories.map((memory, index) => (
+      <motion.div
+        key={memory.date}
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: index * 0.1 }}
+        className="w-full sm:w-10/12 md:w-5/12 lg:w-4/12 bg-white/80 backdrop-blur-xl border border-rose-200 shadow-lg rounded-3xl p-6 hover:scale-[1.03] hover:shadow-2xl transition-all"
+      >
+        <h2 className="text-lg md:text-xl font-bold text-rose-700 mb-4 flex items-center gap-2 justify-center">
+          <Heart className="text-red-500 w-5 h-5" />
+          {memory.date}
+          <Heart className="text-red-500 w-5 h-5" />
+        </h2>
+        <p className="text-gray-700 whitespace-pre-wrap leading-relaxed text-justify text-sm md:text-base">
+          {memory.text}
+        </p>
+      </motion.div>
+    ))}
+  </div>
+</div>
+
+); }
+
